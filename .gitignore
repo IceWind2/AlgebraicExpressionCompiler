@@ -1,0 +1,4 @@
+/.vs
+*.png
+*/bin
+*/obj
