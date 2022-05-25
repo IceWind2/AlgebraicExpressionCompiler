@@ -5,9 +5,9 @@ using System.Text;
 namespace ExpressionAnalyzer
 {
     /* ------------- Grammar ---------------
-       expr: term ((mul | div) term)*
-       term: factor ((plu | min) factor)*
-       factor: INT
+       expr: (minus) term ((plus | minus) term)*
+       term: factor ((mul | div) factor)*
+       factor: INT | Lpar expr Rpar
        ------------------------------------- */
 
     public class Parser
@@ -15,11 +15,16 @@ namespace ExpressionAnalyzer
         private Lexer _lexer;
         private Token _currentToken;
 
+        private void _throwError()
+        {
+            throw new Exception("Parsing error: incorrect expression");
+        }
+
         private void _consumeToken(TokenType type)
         {
             if (_currentToken.Type != type)
             {
-                throw new Exception("Parsing error: incorrect expression");
+                _throwError();
             }
             else
             {
@@ -29,7 +34,15 @@ namespace ExpressionAnalyzer
 
         private int _expr()
         {
-            int res = _term();
+            int neg = 1;
+
+            if (_currentToken.Type == TokenType.Minus)
+            {
+                _consumeToken(TokenType.Minus);
+                neg = -1;
+            }
+
+            int res = _term() * neg;
 
             while (_currentToken.Type == TokenType.Plus || _currentToken.Type == TokenType.Minus)
             {
@@ -73,9 +86,24 @@ namespace ExpressionAnalyzer
 
         private int _factor()
         {
-            var val = _currentToken.Value;
-            _consumeToken(TokenType.Int);
-            return (int) val;
+            int res;
+
+            if (_currentToken.Type == TokenType.Int)
+            {
+                res = (int) _currentToken.Value;
+                _consumeToken(TokenType.Int);
+                return res;
+            }
+            if (_currentToken.Type == TokenType.Lpar)
+            {
+                _consumeToken(TokenType.Lpar);
+                res = _expr();
+                _consumeToken(TokenType.Rpar);
+                return res;
+            }
+
+            _throwError();
+            return 0;
         }
 
         public Parser(Lexer lexer)
@@ -86,7 +114,14 @@ namespace ExpressionAnalyzer
 
         public int Parse()
         {
-            return _expr();
+            int res = _expr();
+            
+            if (_currentToken.Type != TokenType.EOF)
+            {
+                _throwError();
+            }
+
+            return res;
         }
     }
 }

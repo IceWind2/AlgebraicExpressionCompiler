@@ -9,7 +9,7 @@ namespace Main
         {
             try
             {
-                String g = "1 + 2 + 3 +4     -6/2";
+                String g = "(-1 + (-1))* 2";
 
                 var Lex = new Lexer(g);
 

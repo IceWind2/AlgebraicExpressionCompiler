@@ -30,6 +30,8 @@ namespace ExpressionAnalyzer
         Minus,
         Mul,
         Div,
+        Lpar,
+        Rpar,
         EOF
     }
 
@@ -114,6 +116,20 @@ namespace ExpressionAnalyzer
                 if (_currentChar == '/')
                 {
                     _tokens.Add(new Token(TokenType.Div, '/', _currentPos));
+                    _nextChar();
+                    return _tokens.Last();
+                }
+
+                if (_currentChar == '(')
+                {
+                    _tokens.Add(new Token(TokenType.Lpar, '(', _currentPos));
+                    _nextChar();
+                    return _tokens.Last();
+                }
+
+                if (_currentChar == ')')
+                {
+                    _tokens.Add(new Token(TokenType.Rpar, ')', _currentPos));
                     _nextChar();
                     return _tokens.Last();
                 }
