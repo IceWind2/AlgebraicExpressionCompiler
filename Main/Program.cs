@@ -9,13 +9,15 @@ namespace Main
         {
             try
             {
-                String g = "(-1 + (-1))* 2";
+                var g = "10 + 5*2-   2*2/(1+1)";
 
                 var Lex = new Lexer(g);
 
                 var Par = new Parser(Lex);
 
-                Console.WriteLine(Par.Parse());
+                var Int = new Interpreter();
+
+                Console.WriteLine(Int.Visit(Par.Parse()));
             }
             catch (Exception ex)
             {

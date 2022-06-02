@@ -4,16 +4,22 @@ using System.Text;
 
 namespace ExpressionAnalyzer
 {
-    /* ------------- Grammar ---------------
+    /* ---------------- Grammar ----------------
        expr: (minus) term ((plus | minus) term)*
        term: factor ((mul | div) factor)*
        factor: INT | Lpar expr Rpar
-       ------------------------------------- */
+       ----------------------------------------- */
 
     public class Parser
     {
         private Lexer _lexer;
         private Token _currentToken;
+
+        public Parser(Lexer lexer)
+        {
+            _lexer = lexer;
+            _currentToken = _lexer.GetNextToken();
+        }
 
         private void _throwError()
         {
@@ -32,65 +38,57 @@ namespace ExpressionAnalyzer
             }
         }
 
-        private int _expr()
+        private ASTNode _expr()
         {
-            int neg = 1;
+            /*int neg = 1;
 
             if (_currentToken.Type == TokenType.Minus)
             {
                 _consumeToken(TokenType.Minus);
                 neg = -1;
-            }
+            }*/
 
-            int res = _term() * neg;
+            ASTNode term1 = _term();
+            BinOpNode BinOp;
 
             while (_currentToken.Type == TokenType.Plus || _currentToken.Type == TokenType.Minus)
             {
-                if (_currentToken.Type == TokenType.Plus)
-                {
-                    _consumeToken(TokenType.Plus);
-                    res += _term();
-                }
+                BinOp = new BinOpNode(_currentToken);
+                _consumeToken(_currentToken.Type);
+                BinOp.TrySetChild(0, term1);
+                BinOp.TrySetChild(1, _term());
 
-                if (_currentToken.Type == TokenType.Minus)
-                {
-                    _consumeToken(TokenType.Minus);
-                    res -= _term();
-                }
+                term1 = BinOp;
             }
 
-            return res;
+            return term1;
         }
 
-        private int _term()
+        private ASTNode _term()
         {
-            int res = _factor();
+            ASTNode fact1 = _factor();
+            BinOpNode BinOp;
 
             while (_currentToken.Type == TokenType.Mul || _currentToken.Type == TokenType.Div)
             {
-                if (_currentToken.Type == TokenType.Mul)
-                {
-                    _consumeToken(TokenType.Mul);
-                    res *= _factor();
-                }
+                BinOp = new BinOpNode(_currentToken);
+                _consumeToken(_currentToken.Type);
+                BinOp.TrySetChild(0, fact1);
+                BinOp.TrySetChild(1, _factor());
 
-                if (_currentToken.Type == TokenType.Div)
-                {
-                    _consumeToken(TokenType.Div);
-                    res /= _factor();
-                }
+                fact1 = BinOp;
             }
 
-            return res;
+            return fact1;
         }
 
-        private int _factor()
+        private ASTNode _factor()
         {
-            int res;
+            ASTNode res;
 
             if (_currentToken.Type == TokenType.Int)
             {
-                res = (int) _currentToken.Value;
+                res = new IntNode(_currentToken);
                 _consumeToken(TokenType.Int);
                 return res;
             }
@@ -103,18 +101,13 @@ namespace ExpressionAnalyzer
             }
 
             _throwError();
-            return 0;
+            return null;
         }
 
-        public Parser(Lexer lexer)
+        // Returns the root of the generated AST
+        public ASTNode Parse()
         {
-            _lexer = lexer;
-            _currentToken = _lexer.GetNextToken();
-        }
-
-        public int Parse()
-        {
-            int res = _expr();
+            ASTNode res = _expr();
             
             if (_currentToken.Type != TokenType.EOF)
             {
