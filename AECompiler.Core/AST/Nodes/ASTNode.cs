@@ -3,42 +3,42 @@ using AECompiler.Core.Interpreters;
 
 namespace AECompiler.Core.AST.Nodes
 {
-    abstract public class ASTNode
+    internal abstract class ASTNode
     {
-        protected Token _token;
-        protected ASTNode[] _childNodes;
+        protected Token Token;
+        protected ASTNode[] ChildNodes;
 
         public ASTNode(Token token)
         {
-            _token = token;
-            _childNodes = null;
+            Token = token;
+            ChildNodes = null;
         }
 
         public Token GetToken()
         {
-            return _token;
+            return Token;
         }
 
         public bool TryGetChild(int num, out ASTNode node)
         {
-            if (_childNodes is null || num >= _childNodes.Length)
+            if (ChildNodes is null || num >= ChildNodes.Length)
             {
                 node = null;
                 return false;
             }
 
-            node = _childNodes[num];
+            node = ChildNodes[num];
             return true;
         }
 
         public bool TrySetChild(int num, in ASTNode node)
         {
-            if (_childNodes is null || num >= _childNodes.Length)
+            if (ChildNodes is null || num >= ChildNodes.Length)
             {
                 return false;
             }
 
-            _childNodes[num] = node;
+            ChildNodes[num] = node;
             return true;
         }
 

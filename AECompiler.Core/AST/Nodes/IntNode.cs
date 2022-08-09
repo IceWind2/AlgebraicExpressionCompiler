@@ -3,13 +3,13 @@ using AECompiler.Core.Interpreters;
 
 namespace AECompiler.Core.AST.Nodes
 {
-    public class IntNode : ASTNode
+    internal sealed class IntNode : ASTNode
     {
-        private int _value;
+        private readonly int _value;
 
         public IntNode(Token token) : base(token)
         {
-            _value = (int)_token.Value;
+            _value = (int)Token.Value;
         }
 
         public int GetValue()

@@ -6,48 +6,43 @@ using AECompiler.Core.AST.Tokens;
 
 namespace AECompiler.Core.Lexers
 {
-    public class Lexer
+    internal sealed class Lexer : ILexer
     {
-        private readonly string _text;
-        private List<Token> _tokens;
+        private readonly List<Token> _tokens;
         private int _currentPos;
         private char _currentChar;
 
-        private void _nextChar()
+        public Lexer()
         {
-            _currentPos += 1;
+            Expression = "";
+            _tokens = new List<Token>();
+            _currentPos = -1;
+            _currentChar = '\0';
+        }
+        
+        public Lexer(string expression) : this()
+        {
+            Tokenize(expression);
+        }
 
-            if (_currentPos >= _text.Length)
+        public void Tokenize(string expression)
+        {
+            _tokens.Clear();
+
+            if (string.IsNullOrEmpty(expression))
             {
+                Expression = "";
                 _currentChar = '\0';
+                _currentPos = -1;
             }
             else
             {
-                _currentChar = _text[_currentPos];
+                Expression = expression;
+                _currentChar = Expression[0];
+                _currentPos = 0;
             }
         }
-
-        private int _buildNumber()
-        {
-            var number = new System.Text.StringBuilder();
-
-            while (char.IsDigit(_currentChar))
-            {
-                number.Append(_currentChar);
-                _nextChar();
-            }
-
-            return int.Parse(number.ToString());
-        }
-
-        public Lexer(string text)
-        {
-            _text = text;
-            _tokens = new List<Token>();
-            _currentPos = 0;
-            _currentChar = _text[0];
-        }
-
+        
         public Token GetNextToken()
         {
             while (_currentChar != '\0')
@@ -105,15 +100,37 @@ namespace AECompiler.Core.Lexers
                     return _tokens.Last();
                 }
 
-                throw new Exception("Tokenization error: Invalid symbol");
+                throw new ArgumentException("Tokenization error: Invalid symbol");
             }
 
-            return new Token(TokenType.EOF, null);
+            return new Token(TokenType.Eof, null);
+        }
+        
+        public Token GetLastProcessedToken()
+        {
+            return _tokens.Count != 0 ? _tokens.Last() : Token.Empty;
+        }
+        
+        public string Expression { get; private set; }
+        
+        private void _nextChar()
+        {
+            _currentPos += 1;
+
+            _currentChar = _currentPos >= Expression.Length ? '\0' : Expression[_currentPos];
         }
 
-        public Token GetLastToken()
+        private int _buildNumber()
         {
-            return _tokens.Last();
+            var number = new System.Text.StringBuilder();
+
+            while (char.IsDigit(_currentChar))
+            {
+                number.Append(_currentChar);
+                _nextChar();
+            }
+
+            return int.Parse(number.ToString());
         }
     }
 }

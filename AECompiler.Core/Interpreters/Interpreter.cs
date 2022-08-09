@@ -2,16 +2,24 @@
 
 using AECompiler.Core.AST.Tokens;
 using AECompiler.Core.AST.Nodes;
+using AECompiler.Core.Lexers;
+using AECompiler.Core.Parsers;
 
 namespace AECompiler.Core.Interpreters
 {
     public class Interpreter
     {
-        public Interpreter() { }
+        private IParser _parser;
 
-        public int Visit(ASTNode node)
+        public Interpreter()
         {
-            return node.AcceptVisitor(this);
+            ILexer lexer = new Lexer();
+            _parser = new Parser(lexer);
+        }
+
+        public int Compile(string expression)
+        {
+            return Visit(_parser.Parse(expression));
         }
 
         internal int Process(BinOpNode node)
@@ -35,12 +43,17 @@ namespace AECompiler.Core.Interpreters
                     return Visit(child1) / Visit(child2);
             }
 
-            throw new Exception("Interpreter error: Wrong token type");
+            throw new ArgumentException("Interpreter error: Wrong token type");
         }
 
         internal int Process(IntNode node)
         {
             return node.GetValue();
+        }
+        
+        private int Visit(ASTNode node)
+        {
+            return node.AcceptVisitor(this);
         }
     }
 }
