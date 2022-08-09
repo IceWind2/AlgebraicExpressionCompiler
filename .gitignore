@@ -2,3 +2,4 @@
 *.png
 */bin
 */obj
+.idea

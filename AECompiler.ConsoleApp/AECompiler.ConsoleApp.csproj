@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ExpressionAnalyzer\ExpressionAnalyzer.csproj" />
+    <ProjectReference Include="..\AECompiler.Core\AECompiler.Core.csproj" />
   </ItemGroup>
 
 </Project>

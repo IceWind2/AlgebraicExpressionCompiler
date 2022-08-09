@@ -1,8 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace ExpressionAnalyzer
+using AECompiler.Core.AST.Nodes;
+using AECompiler.Core.AST.Tokens;
+using AECompiler.Core.Lexers;
+
+namespace AECompiler.Core.Parsers
 {
     /* ---------------- Grammar ----------------
        expr: (minus) term ((plus | minus) term)*
@@ -108,7 +110,7 @@ namespace ExpressionAnalyzer
         public ASTNode Parse()
         {
             ASTNode res = _expr();
-            
+
             if (_currentToken.Type != TokenType.EOF)
             {
                 _throwError();

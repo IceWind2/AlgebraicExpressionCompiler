@@ -1,8 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace ExpressionAnalyzer
+using AECompiler.Core.AST.Tokens;
+using AECompiler.Core.AST.Nodes;
+
+namespace AECompiler.Core.Interpreters
 {
     public class Interpreter
     {

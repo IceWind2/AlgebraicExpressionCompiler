@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32516.85
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExpressionAnalyzer", "ExpressionAnalyzer\ExpressionAnalyzer.csproj", "{8A8A4FEA-AF6E-46A5-8297-49FFFE4DCA29}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AECompiler.Core", "AECompiler.Core\AECompiler.Core.csproj", "{8A8A4FEA-AF6E-46A5-8297-49FFFE4DCA29}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Main", "Main\Main.csproj", "{2754BAF9-3E0A-4612-8A08-E26F47EB1E25}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AECompiler.ConsoleApp", "AECompiler.ConsoleApp\AECompiler.ConsoleApp.csproj", "{2754BAF9-3E0A-4612-8A08-E26F47EB1E25}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

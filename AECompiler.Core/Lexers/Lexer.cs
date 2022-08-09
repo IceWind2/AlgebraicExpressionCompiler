@@ -2,42 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ExpressionAnalyzer
+using AECompiler.Core.AST.Tokens;
+
+namespace AECompiler.Core.Lexers
 {
-    public class Token
-    {
-        public TokenType Type;
-        public object Value;
-        public int Pos;
-
-        public Token(TokenType type, object value, int pos = -1)
-        {
-            Type = type;
-            Value = value;
-            Pos = pos;
-        }
-
-        public override string ToString()
-        {
-            return $"({Type}, {Value})";
-        }
-    }
-
-    public enum TokenType
-    {
-        Int,
-        Plus,
-        Minus,
-        Mul,
-        Div,
-        Lpar,
-        Rpar,
-        EOF
-    }
-
     public class Lexer
     {
-        private readonly String _text;
+        private readonly string _text;
         private List<Token> _tokens;
         private int _currentPos;
         private char _currentChar;
@@ -60,16 +31,16 @@ namespace ExpressionAnalyzer
         {
             var number = new System.Text.StringBuilder();
 
-            while (Char.IsDigit(_currentChar))
+            while (char.IsDigit(_currentChar))
             {
                 number.Append(_currentChar);
                 _nextChar();
             }
 
-            return Int32.Parse(number.ToString());
+            return int.Parse(number.ToString());
         }
 
-        public Lexer (String text)
+        public Lexer(string text)
         {
             _text = text;
             _tokens = new List<Token>();
@@ -81,12 +52,12 @@ namespace ExpressionAnalyzer
         {
             while (_currentChar != '\0')
             {
-                while (Char.IsWhiteSpace(_currentChar))
+                while (char.IsWhiteSpace(_currentChar))
                 {
                     _nextChar();
                 }
 
-                if (Char.IsDigit(_currentChar))
+                if (char.IsDigit(_currentChar))
                 {
                     _tokens.Add(new Token(TokenType.Int, _buildNumber(), _currentPos));
                     return _tokens.Last();
