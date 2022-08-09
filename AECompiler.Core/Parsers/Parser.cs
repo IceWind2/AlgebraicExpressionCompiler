@@ -28,6 +28,11 @@ namespace AECompiler.Core.Parsers
         {
             _lexer.Tokenize(expression);
             _currentToken = _lexer.GetNextToken();
+
+            if (_currentToken.Type == TokenType.Eof)
+            {
+                return new NoOpNode();
+            }
             
             ASTNode res = _expr();
 

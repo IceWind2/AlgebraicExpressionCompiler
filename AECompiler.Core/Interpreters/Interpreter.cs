@@ -24,31 +24,27 @@ namespace AECompiler.Core.Interpreters
 
         internal int Process(BinOpNode node)
         {
-            ASTNode child1, child2;
-            node.TryGetChild(0, out child1);
-            node.TryGetChild(1, out child2);
+            node.TryGetChild(0, out var child1);
+            node.TryGetChild(1, out var child2);
 
-            switch (node.GetToken().Type)
+            return node.GetToken().Type switch
             {
-                case TokenType.Plus:
-                    return Visit(child1) + Visit(child2);
-
-                case TokenType.Minus:
-                    return Visit(child1) - Visit(child2);
-
-                case TokenType.Mul:
-                    return Visit(child1) * Visit(child2);
-
-                case TokenType.Div:
-                    return Visit(child1) / Visit(child2);
-            }
-
-            throw new ArgumentException("Interpreter error: Wrong token type");
+                TokenType.Plus => Visit(child1) + Visit(child2),
+                TokenType.Minus => Visit(child1) - Visit(child2),
+                TokenType.Mul => Visit(child1) * Visit(child2),
+                TokenType.Div => Visit(child1) / Visit(child2),
+                _ => throw new ArgumentException("Interpreter error: Wrong token type")
+            };
         }
 
         internal int Process(IntNode node)
         {
             return node.GetValue();
+        }
+
+        internal int Process(NoOpNode node)
+        {
+            return 0;
         }
         
         private int Visit(ASTNode node)
