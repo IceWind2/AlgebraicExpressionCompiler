@@ -39,6 +39,8 @@ namespace AECompiler.Core.Interpreters
 
         internal int Process(IntNode node)
         {
+            //create id and put in register
+            
             return node.GetValue();
         }
 
