@@ -1,6 +1,6 @@
-﻿namespace AECompiler.Core.CodeGeneration
+﻿namespace AECompiler.Core.CodeGeneration.RegisterDescriptors
 {
-    interface IRegisterDescriptor
+    internal interface IRegisterDescriptor
     {
         public void StoreValue(string id);
 

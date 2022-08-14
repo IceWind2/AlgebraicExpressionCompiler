@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AECompiler.Core.CodeGeneration
+namespace AECompiler.Core.CodeGeneration.RegisterDescriptors
 {
     internal sealed class RegisterDescriptor : IRegisterDescriptor
     {
