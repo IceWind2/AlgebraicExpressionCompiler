@@ -33,18 +33,25 @@ namespace AECompiler.Core.CodeGeneration.RegisterDescriptors
 
         public void ToStack(int idx)
         {
+            Console.WriteLine($"ToStack {_registers[idx].Name} -> {_registers[idx].StoredId}");
             _stack.Push(_registers[idx].StoredId);
+            _registers[idx].Clear();
         }
 
-        public void UnloadStack()
+        public bool TryGetFromStack(out Register register)
         {
-            for (var i = 0; _stack.Count > 0 && i < _registers.Length; ++i)
+            var idx = Array.FindIndex(_registers, register => register.IsFree);
+            
+            if (_stack.Count == 0 || idx == -1)
             {
-                if (_registers[i].IsFree)
-                {
-                    _registers[i].Store(_stack.Pop());
-                }
+                register = null;
+                return false;
             }
+
+            _registers[idx].Store(_stack.Pop());
+            register = _registers[idx];
+            Console.WriteLine($"FromStack {register.StoredId} -> {register.Name}");
+            return true;
         }
         
         public Register GetRegister(int idx)
@@ -62,6 +69,18 @@ namespace AECompiler.Core.CodeGeneration.RegisterDescriptors
             return _registers.First(reg => reg.Name == registerName);
         }
 
+        public int GetRegisterIdx(RegisterName registerName)
+        {
+            var idx = Array.FindIndex(_registers, register => register.Name == registerName);
+
+            if (idx == -1)
+            {
+                throw new InvalidOperationException("GetRegister: Register doesnt exist");
+            }
+
+            return idx;
+        }
+        
         public int GetRegistersCount()
         {
             return _registers.Length;

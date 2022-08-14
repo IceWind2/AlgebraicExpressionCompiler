@@ -4,7 +4,7 @@ namespace AECompiler.Core.CodeGeneration.RegisterDescriptors
 {
     internal interface IRegisterDescriptor
     {
-        public void StoreValue(StoreId id);
+        public RegisterName StoreValue(StoreId id);
 
         public RegisterName GetRegisterWithValue(StoreId id);
 
