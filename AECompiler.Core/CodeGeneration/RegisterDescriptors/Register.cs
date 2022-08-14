@@ -1,20 +1,22 @@
-﻿namespace AECompiler.Core.CodeGeneration.RegisterDescriptors
+﻿using AECompiler.Core.Interpreters.IdGeneration;
+
+namespace AECompiler.Core.CodeGeneration.RegisterDescriptors
 {
     internal sealed class Register
     {
         public readonly RegisterName Name;
         public bool IsFree;
         
-        public string StoredId { get; private set; }
+        public StoreId StoredId { get; private set; }
 
         public Register(RegisterName name)
         {
             Name = name;
             IsFree = true;
-            StoredId = null;
+            StoredId = StoreId.Empty;
         }
 
-        public void Store(string id)
+        public void Store(StoreId id)
         {
             IsFree = false;
             StoredId = id;

@@ -1,14 +1,14 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
-using AECompiler.Core.CodeGeneration.RegisterDescriptors;
+using System.Linq;
+using AECompiler.Core.Interpreters.IdGeneration;
 
-namespace AECompiler.Core.CodeGeneration
+namespace AECompiler.Core.CodeGeneration.RegisterDescriptors
 {
     internal sealed class State
     {
         private readonly Register[] _registers;
-        private readonly Stack<string> _stack;
+        private readonly Stack<StoreId> _stack;
         
         public State()
         {
@@ -21,7 +21,7 @@ namespace AECompiler.Core.CodeGeneration
                 _registers[i] = new Register(regName);
             }
             
-            _stack = new Stack<string>();
+            _stack = new Stack<StoreId>();
         }
 
         public bool TryGetFreeRegister(out Register register)

@@ -1,4 +1,5 @@
 ﻿using System;
+using AECompiler.Core.Interpreters.IdGeneration;
 
 namespace AECompiler.Core.CodeGeneration.RegisterDescriptors
 {
@@ -13,7 +14,7 @@ namespace AECompiler.Core.CodeGeneration.RegisterDescriptors
             _state = new State();
         }
 
-        public void StoreValue(string id)
+        public void StoreValue(StoreId id)
         {
             if (_state.TryGetFreeRegister(out var register))
             {
@@ -27,7 +28,7 @@ namespace AECompiler.Core.CodeGeneration.RegisterDescriptors
             }
         }
 
-        public RegisterName GetRegisterWithValue(string id)
+        public RegisterName GetRegisterWithValue(StoreId id)
         {
             _state.UnloadStack();
             
