@@ -1,5 +1,6 @@
 ﻿using AECompiler.Core.AST.Tokens;
 using AECompiler.Core.Interpreters;
+using AECompiler.Core.Interpreters.IdGeneration;
 
 namespace AECompiler.Core.AST.Nodes
 {
@@ -8,7 +9,7 @@ namespace AECompiler.Core.AST.Nodes
         protected Token Token;
         protected ASTNode[] ChildNodes;
 
-        public ASTNode(Token token)
+        protected ASTNode(Token token)
         {
             Token = token;
             ChildNodes = null;
@@ -42,6 +43,6 @@ namespace AECompiler.Core.AST.Nodes
             return true;
         }
 
-        public abstract int AcceptVisitor(Interpreter interpreter);
+        public abstract StoreId AcceptVisitor(Interpreter interpreter);
     }
 }

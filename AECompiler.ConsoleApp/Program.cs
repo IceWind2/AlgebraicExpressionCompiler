@@ -4,7 +4,7 @@ using AECompiler.Core.Interpreters;
 
 namespace AECompiler.ConsoleApp
 {
-    static class EntryPoint
+    public static class EntryPoint
     {
         public static void Main(string[] args)
         {
@@ -12,7 +12,7 @@ namespace AECompiler.ConsoleApp
             {
                 var itp = new Interpreter();
 
-                Console.WriteLine(itp.Compile("3 * 4 + 5 * 2   -   2*2/ (1 + 1)"));
+                itp.Compile("3 * 4 + 5 * 2   -   2*2/ (1 + 1)");
             }
             catch (Exception ex)
             {
