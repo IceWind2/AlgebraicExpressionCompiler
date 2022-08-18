@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using AECompiler.Core.Interpreters.IdGeneration;
+
+using AECompiler.Core.CodeGeneration.IdGeneration;
 
 namespace AECompiler.Core.CodeGeneration.RegisterDescriptors
 {

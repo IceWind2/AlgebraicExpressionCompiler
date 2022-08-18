@@ -1,6 +1,5 @@
 ﻿using System;
-
-using AECompiler.Core.Interpreters;
+using AECompiler.Core;
 
 namespace AECompiler.ConsoleApp
 {
@@ -10,9 +9,9 @@ namespace AECompiler.ConsoleApp
         {
             try
             {
-                var itp = new Interpreter();
+                var core = new CompilerCore();
 
-                itp.Compile("3 * 4 + 5 * 2   -   2*2/ (1 + 1)");
+                core.Compile("3 * 4 + 5 * 2   -   2*2/ (1 + 1)");
             }
             catch (Exception ex)
             {

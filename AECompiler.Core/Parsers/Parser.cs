@@ -17,10 +17,14 @@ namespace AECompiler.Core.Parsers
         private readonly ILexer _lexer;
         private Token _currentToken;
 
+        public Parser()
+        {
+            _lexer = new Lexer();
+        }
+        
         public Parser(ILexer lexer)
         {
             _lexer = lexer;
-            _currentToken = _lexer.GetNextToken();
         }
 
         // Returns the root of the generated AST

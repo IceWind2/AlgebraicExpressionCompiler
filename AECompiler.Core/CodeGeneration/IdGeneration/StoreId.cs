@@ -1,4 +1,4 @@
-﻿namespace AECompiler.Core.Interpreters.IdGeneration
+﻿namespace AECompiler.Core.CodeGeneration.IdGeneration
 {
     internal readonly struct StoreId
     {

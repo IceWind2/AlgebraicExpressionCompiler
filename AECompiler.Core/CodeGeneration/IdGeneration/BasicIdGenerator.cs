@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace AECompiler.Core.Interpreters.IdGeneration
+namespace AECompiler.Core.CodeGeneration.IdGeneration
 {
     internal sealed class BasicIdGenerator : IStoreIdGenerator
     {

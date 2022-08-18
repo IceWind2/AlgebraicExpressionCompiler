@@ -1,4 +1,4 @@
-﻿using AECompiler.Core.Interpreters.IdGeneration;
+﻿using AECompiler.Core.CodeGeneration.IdGeneration;
 
 namespace AECompiler.Core.CodeGeneration.RegisterDescriptors
 {

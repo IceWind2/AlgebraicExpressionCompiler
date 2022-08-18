@@ -1,32 +1,37 @@
 ﻿using System;
+
 using AECompiler.Core.AST.Nodes;
+using AECompiler.Core.CodeGeneration.AssemblyGenerators;
+using AECompiler.Core.CodeGeneration.IdGeneration;
 using AECompiler.Core.CodeGeneration.RegisterDescriptors;
-using AECompiler.Core.Interpreters.IdGeneration;
-using AECompiler.Core.Lexers;
-using AECompiler.Core.Parsers;
 
 namespace AECompiler.Core.Interpreters
 {
-    public class Interpreter
+    internal sealed class Interpreter : IInterpreter
     {
-        private readonly IParser _parser;
         private readonly IStoreIdGenerator _idGenerator;
         private readonly IRegisterDescriptor _registerDescriptor;
+        private readonly IAssemblyGenerator _assemblyGenerator;
 
-        public Interpreter()
+        public Interpreter
+            (
+                IStoreIdGenerator storeIdGenerator, 
+                IRegisterDescriptor registerDescriptor, 
+                IAssemblyGenerator assemblyGenerator
+            )
         {
-            ILexer lexer = new Lexer();
-            _parser = new Parser(lexer);
-            _idGenerator = new BasicIdGenerator();
-            _registerDescriptor = new RegisterDescriptor();
+            _idGenerator = storeIdGenerator;
+            _registerDescriptor = registerDescriptor;
+            _assemblyGenerator = assemblyGenerator;
         }
 
-        public void Compile(string expression)
+        // AST processing start
+        public void Process(ASTNode node)
         {
-            Visit(_parser.Parse(expression));
+             Visit(node);
         }
 
-        internal StoreId Process(BinOpNode node)
+        public StoreId Process(BinOpNode node)
         {
             node.TryGetChild(0, out var child1);
             node.TryGetChild(1, out var child2);
@@ -44,7 +49,7 @@ namespace AECompiler.Core.Interpreters
             return id1;
         }
 
-        internal StoreId Process(IntNode node)
+        public StoreId Process(IntNode node)
         {
             var id = _idGenerator.GetNewId();
             
@@ -55,11 +60,11 @@ namespace AECompiler.Core.Interpreters
             return id;
         }
 
-        internal StoreId Process(NoOpNode node)
+        public StoreId Process(NoOpNode node)
         {
             return StoreId.Empty;
         }
-        
+
         private StoreId Visit(ASTNode node)
         {
             return node.AcceptVisitor(this);

@@ -1,6 +1,6 @@
 ﻿using AECompiler.Core.AST.Tokens;
+using AECompiler.Core.CodeGeneration.IdGeneration;
 using AECompiler.Core.Interpreters;
-using AECompiler.Core.Interpreters.IdGeneration;
 
 namespace AECompiler.Core.AST.Nodes
 {
