@@ -16,9 +16,9 @@ namespace AECompiler.Core.AST.Nodes
             ChildNodes = new ASTNode[2] { left, right };
         }
 
-        public override StoreId AcceptVisitor(Interpreter interpreter)
+        public override StoreId AcceptVisitor(IInterpreter basicInterpreter)
         {
-            return interpreter.Process(this);
+            return basicInterpreter.Process(this);
         }
     }
 }

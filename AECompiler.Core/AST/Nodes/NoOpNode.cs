@@ -8,9 +8,9 @@ namespace AECompiler.Core.AST.Nodes
     {
         public NoOpNode() : base(Token.Empty) {}
 
-        public override StoreId AcceptVisitor(Interpreter interpreter)
+        public override StoreId AcceptVisitor(IInterpreter basicInterpreter)
         {
-            return interpreter.Process(this);
+            return basicInterpreter.Process(this);
         }
     }
 }

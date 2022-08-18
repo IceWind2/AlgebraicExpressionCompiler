@@ -43,6 +43,6 @@ namespace AECompiler.Core.AST.Nodes
             return true;
         }
 
-        public abstract StoreId AcceptVisitor(Interpreter interpreter);
+        public abstract StoreId AcceptVisitor(IInterpreter basicInterpreter);
     }
 }

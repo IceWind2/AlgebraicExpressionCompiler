@@ -49,10 +49,10 @@ public class ParserTests
         Assert.Equal(TokenType.Plus, root.GetToken().Type);
     }
     
-    private Parser CreateDefaultParser()
+    private RecursiveParser CreateDefaultParser()
     {
-        var lexer = new Lexer();
+        var lexer = new LazyLexer();
 
-        return new Parser(lexer);
+        return new RecursiveParser(lexer);
     } 
 }

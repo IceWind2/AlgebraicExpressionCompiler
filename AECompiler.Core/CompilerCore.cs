@@ -14,8 +14,8 @@ namespace AECompiler.Core
 
         public CompilerCore()
         {
-            _parser = new Parser();
-            _interpreter = new Interpreter(new BasicIdGenerator(), new RegisterDescriptor(),
+            _parser = new RecursiveParser();
+            _interpreter = new BasicInterpreter(new BasicIdGenerator(), new RegisterDescriptor(),
                 new LinuxAssemblyGenerator());
         }
 

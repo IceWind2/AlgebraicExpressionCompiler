@@ -7,13 +7,13 @@ using AECompiler.Core.CodeGeneration.RegisterDescriptors;
 
 namespace AECompiler.Core.Interpreters
 {
-    internal sealed class Interpreter : IInterpreter
+    internal sealed class BasicInterpreter : IInterpreter
     {
         private readonly IStoreIdGenerator _idGenerator;
         private readonly IRegisterDescriptor _registerDescriptor;
         private readonly IAssemblyGenerator _assemblyGenerator;
 
-        public Interpreter
+        public BasicInterpreter
             (
                 IStoreIdGenerator storeIdGenerator, 
                 IRegisterDescriptor registerDescriptor, 

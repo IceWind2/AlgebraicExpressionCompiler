@@ -12,17 +12,17 @@ namespace AECompiler.Core.Parsers
        factor: INT | Lpar expr Rpar
        ----------------------------------------- */
 
-    internal sealed class Parser : IParser
+    internal sealed class RecursiveParser : IParser
     {
         private readonly ILexer _lexer;
         private Token _currentToken;
 
-        public Parser()
+        public RecursiveParser()
         {
-            _lexer = new Lexer();
+            _lexer = new LazyLexer();
         }
         
-        public Parser(ILexer lexer)
+        public RecursiveParser(ILexer lexer)
         {
             _lexer = lexer;
         }
