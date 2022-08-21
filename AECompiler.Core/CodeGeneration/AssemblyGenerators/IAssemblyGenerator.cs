@@ -6,17 +6,11 @@
 
         public void FinishGeneration();
 
-        public void WriteHeader();
-
-        public void WriteData();
-
-        public void WriteOutputFunction(string label);
-
-        public void WriteStart();
-
         public void WriteStore(string target, string source);
 
         public void WriteAdd(string target, string source);
+
+        public void WriteNeg(string target);
 
         public void WriteMul(string operand);
 
@@ -27,7 +21,5 @@
         public void WritePop(string target);
 
         public void WriteCall(string label);
-
-        public void WriteExit();
     }
 }

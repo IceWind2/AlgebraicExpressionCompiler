@@ -9,14 +9,18 @@ namespace AECompiler.Core
 {
     public class CompilerCore
     {
-        private IParser _parser;
-        private IInterpreter _interpreter;
+        private readonly IParser _parser;
+        private readonly IInterpreter _interpreter;
 
         public CompilerCore()
         {
             _parser = new RecursiveParser();
-            _interpreter = new BasicInterpreter(new BasicIdGenerator(), new RegisterDescriptor(),
-                new LinuxAssemblyGenerator());
+
+            var assemblyGenerator = new LinuxAssemblyGenerator();
+            var basicIdGenerator = new BasicIdGenerator();
+            var registerDescriptor= new RegisterDescriptor(assemblyGenerator);
+
+            _interpreter = new BasicInterpreter(assemblyGenerator, basicIdGenerator, registerDescriptor);
         }
 
         public void Compile(string expression)

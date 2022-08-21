@@ -2,12 +2,12 @@
 {
     internal static class LinuxConstants
     {
-        public static readonly string Header =
+        public const string Header =
 @".intel_syntax noprefix
 .text
 .global _start" + "\n\n";
 
-        public static readonly string Data =
+        public const string Data =
 @".data
     zero: .word 0x30
     .word 0x31
@@ -20,83 +20,87 @@
     .word 0x38
     .word 0x39" + 
     "\n    line: .string \"\\n\"" +
-    "\n    minus: .string \"-\"";
+    "\n    minus: .string \"-\"\n\n";
 
-        public static readonly string Output =
+        public const string OutputFunc =
 @"{0}:
     # handling negative numbers
-    test    dx, dx              # Is positive?
-    jns     .print_start        # Positive number
-    neg     dx                  # 
-    neg     ax                  #   Negate DX:AX
-    sbb     dx, 0               # 
-    push    ax                  # Save number
+    test    dx, dx
+    jns     .print_start
+    neg     dx
+    neg     ax
+    sbb     dx, 0
+    push    ax
     push    dx
-    mov     eax, 4              # 
-    mov     ebx, 1              #  
-    lea     ecx, [minus]        #   Print sign
-    mov     edx, 1              #  
-    int     0x80                # 
-    pop     dx                  # Restore number
+    mov     eax, 4
+    mov     ebx, 1
+    lea     ecx, [minus]
+    mov     edx, 1
+    int     0x80
+    pop     dx
     pop     ax
 
 .print_start:
-    mov     bx,10               # CONST
-    push    bx                  # Sentinel
+    mov     bx,10
+    push    bx
 
 .digit_split:
-    mov     cx,ax               # Temporarily store LowDividend in CX
-    mov     ax,dx               # First divide the HighDividend
-    xor     dx,dx               # Setup for division DX:AX / BX
-    div     bx                  # -> AX is HighQuotient, Remainder is re-used
-    xchg    ax,cx               # Temporarily move it to CX restoring LowDividend
-    div     bx                  # -> AX is LowQuotient, Remainder DX=[0,9]
-    push    dx                  # Save remainder for now
-    mov     dx,cx               # Build true 32-bit quotient in DX:AX
-    or      cx,ax               # Is the true 32-bit quotient zero?
-    jnz     .digit_split        # No, use as next dividend
-    pop     dx                  # First pop
+    mov     cx,ax
+    mov     ax,dx
+    xor     dx,dx
+    div     bx
+    xchg    ax,cx
+    div     bx
+    push    dx
+    mov     dx,cx
+    or      cx,ax
+    jnz     .digit_split
+    pop     dx
 
 .print:
-    add     edx, edx            # To calculate address
-    mov     eax, 4              # 
-    mov     ebx, 1              #  
-    lea     ecx, [zero + edx]   #   Print digit  
-    mov     edx, 1              #  
-    int     0x80                # 
-    pop     dx                  # All remaining pops
-    mov     ebx, 10             # Restore sentinel
-    cmp     dx,bx               # Was it the sentinel?
-    jb      .print              # Not yet
+    add     edx, edx
+    mov     eax, 4
+    mov     ebx, 1
+    lea     ecx, [zero + edx]
+    mov     edx, 1
+    int     0x80
+    pop     dx
+    mov     ebx, 10
+    cmp     dx,bx
+    jb      .print
 
     # new line
-    mov eax, 4       # sys call
-    mov ebx, 1       # file descriptor
-    lea ecx, line    # message
-    mov edx, 1       # message length
+    mov eax, 4
+    mov ebx, 1
+    lea ecx, line
+    mov edx, 1
     int 0x80
 
     ret" + "\n\n";
 
-        public static readonly string Start = "_start:\n";
+        public const string OutputLabel = "output";
 
-        public static readonly string Store = "mov {0}, {1}\n";
+        public const string Start = "_start:\n";
 
-        public static readonly string Add = "add {0}, {1}\n";
+        public const string Store = "mov {0}, {1}\n";
 
-        public static readonly string Mul = "mul {0}\n";
+        public const string Add = "add {0}, {1}\n";
+
+        public const string Neg = "neg {0}\n";
+
+        public const string Mul = "mul {0}\n";
         
-        public static readonly string Div = "div {0}\n";
+        public const string Div = "div {0}\n";
 
-        public static readonly string Push = "push {0}\n";
+        public const string Push = "push {0}\n";
 
-        public static readonly string Pop = "pop {0}\n";
+        public const string Pop = "pop {0}\n";
         
-        public static readonly string Call = "call {0}\n";
+        public const string Call = "call {0}\n";
 
-        public static readonly string Exit =
-@"mov eax, 1
-mov ebx, 0
-int 0x80" + "\n\n";
+        public const string Exit =
+@"    mov eax, 1
+    mov ebx, 0
+    int 0x80" + "\n\n";
     }
 }

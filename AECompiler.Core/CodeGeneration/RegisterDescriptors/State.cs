@@ -34,7 +34,6 @@ namespace AECompiler.Core.CodeGeneration.RegisterDescriptors
 
         public void ToStack(int idx)
         {
-            Console.WriteLine($"ToStack {_registers[idx].Name} -> {_registers[idx].StoredId}");
             _stack.Push(_registers[idx].StoredId);
             _registers[idx].Clear();
         }
@@ -51,7 +50,6 @@ namespace AECompiler.Core.CodeGeneration.RegisterDescriptors
 
             _registers[idx].Store(_stack.Pop());
             register = _registers[idx];
-            Console.WriteLine($"FromStack {register.StoredId} -> {register.Name}");
             return true;
         }
         

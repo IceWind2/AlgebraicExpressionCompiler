@@ -1,5 +1,5 @@
 ﻿using System;
-
+using AECompiler.Core.CodeGeneration.AssemblyGenerators;
 using AECompiler.Core.CodeGeneration.IdGeneration;
 
 namespace AECompiler.Core.CodeGeneration.RegisterDescriptors
@@ -7,12 +7,14 @@ namespace AECompiler.Core.CodeGeneration.RegisterDescriptors
     internal sealed class RegisterDescriptor : IRegisterDescriptor
     {
         private readonly State _state;
+        private readonly IAssemblyGenerator _assemblyGenerator;
         private int _counter;
 
-        public RegisterDescriptor()
+        public RegisterDescriptor(IAssemblyGenerator assemblyGenerator)
         {
             _counter = 0;
             _state = new State();
+            _assemblyGenerator = assemblyGenerator;
         }
 
         public RegisterName StoreValue(StoreId id)
@@ -27,7 +29,8 @@ namespace AECompiler.Core.CodeGeneration.RegisterDescriptors
             _counter = ++_counter % _state.GetRegistersCount();
             _state.ToStack(_counter);
             _state.GetRegister(_counter).Store(id);
-
+            _assemblyGenerator.WritePush(_state.GetRegister(_counter).ToString());
+            
             return _state.GetRegister(_counter).Name;
         }
 
@@ -43,6 +46,8 @@ namespace AECompiler.Core.CodeGeneration.RegisterDescriptors
 
             while (_state.TryGetFromStack(out var register))
             {
+                _assemblyGenerator.WritePop(register.ToString());
+                
                 if (register.StoredId == id)
                 {
                     return register.Name;
