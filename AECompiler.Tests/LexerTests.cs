@@ -89,7 +89,7 @@ public class LexerTests
 
         Token token = lexer.GetLastProcessedToken();
 
-        Assert.Equal(TokenType.Empty, token.Type);
+        Assert.Null(token);
     }
 
     [Fact]

@@ -8,14 +8,14 @@ namespace AECompiler.Tests;
 public class ParserTests
 {
     [Fact]
-    public void Parse_EmptyExpression_ReturnsEmptyToken()
+    public void Parse_EmptyExpression_ReturnsNoOpNode()
     {
         var parser = CreateDefaultParser();
         const string expression = "";
 
         ASTNode root = parser.Parse(expression);
 
-        Assert.Equal(TokenType.Empty, root.GetToken().Type);
+        Assert.Null(root.GetToken());
     }
 
     [Fact]

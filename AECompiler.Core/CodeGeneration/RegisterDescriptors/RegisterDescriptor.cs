@@ -33,6 +33,18 @@ namespace AECompiler.Core.CodeGeneration.RegisterDescriptors
             
             return _state.GetRegister(_counter).Name;
         }
+        
+        public void StoreValue(StoreId id, RegisterName registerName)
+        {
+            var register = _state.GetRegister(registerName);
+
+            if (!register.IsFree)
+            {
+                _state.ToStack(_state.GetRegisterIdx(registerName));
+            }
+            
+            register.Store(id);
+        }
 
         public RegisterName GetRegisterWithValue(StoreId id)
         {

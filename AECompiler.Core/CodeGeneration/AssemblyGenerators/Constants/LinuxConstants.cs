@@ -88,9 +88,9 @@
 
         public const string Neg = "neg {0}\n";
 
-        public const string Mul = "mul {0}\n";
+        public const string Mul = "imul {0}\n";
         
-        public const string Div = "div {0}\n";
+        public const string Div = "idiv {0}\n";
 
         public const string Push = "push {0}\n";
 

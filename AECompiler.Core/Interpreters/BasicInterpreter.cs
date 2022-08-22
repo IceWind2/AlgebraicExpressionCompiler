@@ -36,9 +36,9 @@ namespace AECompiler.Core.Interpreters
 
         public StoreId Process(BinOpNode node)
         {
-            node.TryGetChild(0, out var child1);
-            node.TryGetChild(1, out var child2);
-
+            var child1 = node.GetChild(0);
+            var child2 = node.GetChild(1);
+            
             var id1 = Visit(child1);
             var id2 = Visit(child2);
 
@@ -57,9 +57,23 @@ namespace AECompiler.Core.Interpreters
                     break;
                 
                 case TokenType.Mul:
+                    if (regName1 == RegisterName.AX || regName2 == RegisterName.AX)
+                    {
+                        if (regName2 == RegisterName.AX)
+                        {
+                            regName2 = regName1;
+                            id1 = id2;
+                        }
+                        
+                        _assemblyGenerator.WriteMul(regName2.ToString());
+                        break;
+                    }
+
+                    _registerDescriptor.StoreValue(id1, RegisterName.AX);
+                    _assemblyGenerator.WriteMul(regName2.ToString());
                     break;
                 
-                case TokenType.Div:                                               
+                case TokenType.Div:
                     break;
                
                 default:
