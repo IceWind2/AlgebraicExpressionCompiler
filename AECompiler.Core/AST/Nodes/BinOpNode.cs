@@ -13,7 +13,7 @@ namespace AECompiler.Core.AST.Nodes
 
         public BinOpNode(Token token, ASTNode left, ASTNode right) : base(token)
         {
-            ChildNodes = new ASTNode[2] { left, right };
+            ChildNodes = new[] { left, right };
         }
 
         public override StoreId AcceptVisitor(IInterpreter basicInterpreter)

@@ -65,8 +65,8 @@ namespace AECompiler.Core.Parsers
             {
                 binOp = new BinOpNode(_currentToken);
                 _consumeToken(_currentToken.Type);
-                binOp.TrySetChild(0, root);
-                binOp.TrySetChild(1, _term());
+                binOp.SetChild(0, root);
+                binOp.SetChild(1, _term());
 
                 root = binOp;
             }
@@ -83,8 +83,8 @@ namespace AECompiler.Core.Parsers
             {
                 binOp = new BinOpNode(_currentToken);
                 _consumeToken(_currentToken.Type);
-                binOp.TrySetChild(0, root);
-                binOp.TrySetChild(1, _factor());
+                binOp.SetChild(0, root);
+                binOp.SetChild(1, _factor());
 
                 root = binOp;
             }

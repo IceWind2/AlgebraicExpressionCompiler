@@ -108,7 +108,7 @@ namespace AECompiler.Core.Lexers
         
         public Token GetLastProcessedToken()
         {
-            return _tokens.Count != 0 ? _tokens.Last() : Token.Empty;
+            return _tokens.Count != 0 ? _tokens.Last() : null;
         }
         
         public string Expression { get; private set; }

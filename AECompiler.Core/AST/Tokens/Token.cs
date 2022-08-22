@@ -1,9 +1,7 @@
 ﻿namespace AECompiler.Core.AST.Tokens
 {
-    internal readonly struct Token
+    internal sealed class Token
     {
-        public static readonly Token Empty = new Token(TokenType.Empty, null);
-        
         public readonly TokenType Type;
         public readonly object Value;
         public readonly int Pos;
