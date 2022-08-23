@@ -30,7 +30,15 @@ namespace AECompiler.Core.Interpreters
         public void Process(ASTNode node)
         { 
             _assemblyGenerator.StartGeneration("output.S"); 
-            Visit(node);
+            
+            var resultId = Visit(node);
+            var resultRegister = _registerDescriptor.GetRegisterWithValue(resultId);
+            if (resultRegister != RegisterName.AX)
+            {
+                _assemblyGenerator.WriteStore(RegisterName.AX.ToString(), resultRegister.ToString());
+                _registerDescriptor.FreeRegister(resultRegister);
+            }
+            
             _assemblyGenerator.FinishGeneration();
         }
 
@@ -70,6 +78,7 @@ namespace AECompiler.Core.Interpreters
                     }
 
                     _registerDescriptor.StoreValue(id1, RegisterName.AX);
+                    _assemblyGenerator.WriteStore(RegisterName.AX.ToString(), regName1.ToString());
                     _assemblyGenerator.WriteMul(regName2.ToString());
                     break;
                 

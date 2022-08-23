@@ -34,6 +34,11 @@ namespace AECompiler.Core.CodeGeneration.RegisterDescriptors
 
         public void ToStack(int idx)
         {
+            if (idx < 0 || idx > _registers.Length)
+            {
+                throw new InvalidOperationException("GetRegister: Register doesnt exist");
+            }
+            
             _stack.Push(_registers[idx].StoredId);
             _registers[idx].Clear();
         }
