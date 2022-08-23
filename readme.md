@@ -1,3 +1,4 @@
+![Build\Test](https://github.com/IceWind2/AlgebraicExpressionCompiler/actions/workflows/dotnet.yml/badge.svg)
 # Algebraic expression compiler
 AECompiler is a CLI application that generates assembly file which evaluates input expression.
 ## Requirements
