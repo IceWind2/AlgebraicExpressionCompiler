@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using AECompiler.Core.Interpreters.IdGeneration;
+
+using AECompiler.Core.CodeGeneration.IdGeneration;
 
 namespace AECompiler.Core.CodeGeneration.RegisterDescriptors
 {
@@ -33,7 +34,11 @@ namespace AECompiler.Core.CodeGeneration.RegisterDescriptors
 
         public void ToStack(int idx)
         {
-            Console.WriteLine($"ToStack {_registers[idx].Name} -> {_registers[idx].StoredId}");
+            if (idx < 0 || idx > _registers.Length)
+            {
+                throw new InvalidOperationException("GetRegister: Register doesnt exist");
+            }
+            
             _stack.Push(_registers[idx].StoredId);
             _registers[idx].Clear();
         }
@@ -50,7 +55,6 @@ namespace AECompiler.Core.CodeGeneration.RegisterDescriptors
 
             _registers[idx].Store(_stack.Pop());
             register = _registers[idx];
-            Console.WriteLine($"FromStack {register.StoredId} -> {register.Name}");
             return true;
         }
         

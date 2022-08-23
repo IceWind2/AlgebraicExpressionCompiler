@@ -1,12 +1,14 @@
-﻿using AECompiler.Core.AST.Tokens;
+﻿using System;
+
+using AECompiler.Core.AST.Tokens;
+using AECompiler.Core.CodeGeneration.IdGeneration;
 using AECompiler.Core.Interpreters;
-using AECompiler.Core.Interpreters.IdGeneration;
 
 namespace AECompiler.Core.AST.Nodes
 {
     internal abstract class ASTNode
     {
-        protected Token Token;
+        protected readonly Token Token;
         protected ASTNode[] ChildNodes;
 
         protected ASTNode(Token token)
@@ -20,29 +22,26 @@ namespace AECompiler.Core.AST.Nodes
             return Token;
         }
 
-        public bool TryGetChild(int num, out ASTNode node)
+        public ASTNode GetChild(int idx)
         {
-            if (ChildNodes is null || num >= ChildNodes.Length)
+            if (ChildNodes is null || idx >= ChildNodes.Length)
             {
-                node = null;
-                return false;
+                throw new InvalidOperationException("ASTNode: child not found");
             }
 
-            node = ChildNodes[num];
-            return true;
+            return ChildNodes[idx];
         }
 
-        public bool TrySetChild(int num, in ASTNode node)
+        public void SetChild(int idx, in ASTNode node)
         {
-            if (ChildNodes is null || num >= ChildNodes.Length)
+            if (ChildNodes is null || idx >= ChildNodes.Length)
             {
-                return false;
+                throw new InvalidOperationException("ASTNode: child not found");
             }
 
-            ChildNodes[num] = node;
-            return true;
+            ChildNodes[idx] = node;
         }
 
-        public abstract StoreId AcceptVisitor(Interpreter interpreter);
+        public abstract StoreId AcceptVisitor(IInterpreter basicInterpreter);
     }
 }

@@ -1,8 +1,7 @@
 ﻿using System;
+using AECompiler.Core;
 
-using AECompiler.Core.Interpreters;
-
-namespace AECompiler.ConsoleApp
+namespace AECompiler.CLI
 {
     public static class EntryPoint
     {
@@ -10,9 +9,9 @@ namespace AECompiler.ConsoleApp
         {
             try
             {
-                var itp = new Interpreter();
-
-                itp.Compile("3 * 4 + 5 * 2   -   2*2/ (1 + 1)");
+                var core = new CompilerCore();
+             
+                core.Compile(args[0]);
             }
             catch (Exception ex)
             {

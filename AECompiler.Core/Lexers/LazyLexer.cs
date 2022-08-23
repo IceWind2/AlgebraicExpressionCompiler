@@ -6,13 +6,13 @@ using AECompiler.Core.AST.Tokens;
 
 namespace AECompiler.Core.Lexers
 {
-    internal sealed class Lexer : ILexer
+    internal sealed class LazyLexer : ILexer
     {
         private readonly List<Token> _tokens;
         private int _currentPos;
         private char _currentChar;
 
-        public Lexer()
+        public LazyLexer()
         {
             Expression = "";
             _tokens = new List<Token>();
@@ -20,7 +20,7 @@ namespace AECompiler.Core.Lexers
             _currentChar = '\0';
         }
         
-        public Lexer(string expression) : this()
+        public LazyLexer(string expression) : this()
         {
             Tokenize(expression);
         }
@@ -108,7 +108,7 @@ namespace AECompiler.Core.Lexers
         
         public Token GetLastProcessedToken()
         {
-            return _tokens.Count != 0 ? _tokens.Last() : Token.Empty;
+            return _tokens.Count != 0 ? _tokens.Last() : null;
         }
         
         public string Expression { get; private set; }

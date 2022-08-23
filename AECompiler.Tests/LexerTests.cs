@@ -8,7 +8,7 @@ public class LexerTests
     [Fact]
     public void Tokenize_NullExpression_ContainsEmptyString()
     {
-        var lexer = new Lexer();
+        var lexer = new LazyLexer();
 
         lexer.Tokenize(null);
 
@@ -18,7 +18,7 @@ public class LexerTests
     [Fact]
     public void Tokenize_StringExpression_ContainsSameString()
     {
-        var lexer = new Lexer();
+        var lexer = new LazyLexer();
         const string expression = "0";
 
         lexer.Tokenize(expression);
@@ -29,7 +29,7 @@ public class LexerTests
     [Fact]  
     public void GetNextToken_EmptyExpression_ReturnsEOFToken()
     {
-        var lexer = new Lexer();
+        var lexer = new LazyLexer();
         
         Token token = lexer.GetNextToken();
 
@@ -42,7 +42,7 @@ public class LexerTests
     [InlineData("  3443")]
     public void GetNextToken_Number_ReturnsSameNumber(string expression)
     {
-        var lexer = new Lexer(expression);
+        var lexer = new LazyLexer(expression);
 
         Token token = lexer.GetNextToken();
 
@@ -54,7 +54,7 @@ public class LexerTests
     [InlineData("   *  ")]
     public void GetNextToken_OperationSymbol_ReturnsSameSymbol(string expression)
     {
-        var lexer = new Lexer(expression);
+        var lexer = new LazyLexer(expression);
 
         Token token = lexer.GetNextToken();
 
@@ -65,7 +65,7 @@ public class LexerTests
     public void GetNextToken_InvalidSymbol_ThrowsArgumentException()
     {
         const string expression = "$#@";
-        var lexer = new Lexer(expression);
+        var lexer = new LazyLexer(expression);
 
         Assert.Throws<ArgumentException>(()=>lexer.GetNextToken());
     }
@@ -74,7 +74,7 @@ public class LexerTests
     public void GetNextToken_SeveralTokens_ReturnsSecondToken()
     {
         const string expression = "232 + 55";
-        var lexer = new Lexer(expression);
+        var lexer = new LazyLexer(expression);
 
         lexer.GetNextToken();
         Token token = lexer.GetNextToken();
@@ -85,18 +85,18 @@ public class LexerTests
     [Fact]
     public void GetLastProcessedToken_EmptyExpression_ReturnsNull()
     {
-        var lexer = new Lexer();
+        var lexer = new LazyLexer();
 
         Token token = lexer.GetLastProcessedToken();
 
-        Assert.Equal(TokenType.Empty, token.Type);
+        Assert.Null(token);
     }
 
     [Fact]
     public void GetLastProcessedToken_Token_ReturnsSameToken()
     {
         const string expression = "232";
-        var lexer = new Lexer(expression);
+        var lexer = new LazyLexer(expression);
 
         lexer.GetNextToken();
         Token token = lexer.GetLastProcessedToken();

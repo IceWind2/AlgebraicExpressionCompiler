@@ -12,15 +12,19 @@ namespace AECompiler.Core.Parsers
        factor: INT | Lpar expr Rpar
        ----------------------------------------- */
 
-    internal sealed class Parser : IParser
+    internal sealed class RecursiveParser : IParser
     {
         private readonly ILexer _lexer;
         private Token _currentToken;
 
-        public Parser(ILexer lexer)
+        public RecursiveParser()
+        {
+            _lexer = new LazyLexer();
+        }
+        
+        public RecursiveParser(ILexer lexer)
         {
             _lexer = lexer;
-            _currentToken = _lexer.GetNextToken();
         }
 
         // Returns the root of the generated AST
@@ -61,8 +65,8 @@ namespace AECompiler.Core.Parsers
             {
                 binOp = new BinOpNode(_currentToken);
                 _consumeToken(_currentToken.Type);
-                binOp.TrySetChild(0, root);
-                binOp.TrySetChild(1, _term());
+                binOp.SetChild(0, root);
+                binOp.SetChild(1, _term());
 
                 root = binOp;
             }
@@ -79,8 +83,8 @@ namespace AECompiler.Core.Parsers
             {
                 binOp = new BinOpNode(_currentToken);
                 _consumeToken(_currentToken.Type);
-                binOp.TrySetChild(0, root);
-                binOp.TrySetChild(1, _factor());
+                binOp.SetChild(0, root);
+                binOp.SetChild(1, _factor());
 
                 root = binOp;
             }

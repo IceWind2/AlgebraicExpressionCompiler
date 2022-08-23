@@ -1,6 +1,6 @@
-﻿namespace AECompiler.Core.Interpreters.IdGeneration
+﻿namespace AECompiler.Core.CodeGeneration.IdGeneration
 {
-    public readonly struct StoreId
+    internal readonly struct StoreId
     {
         public static readonly StoreId Empty = new StoreId("", 0);
         

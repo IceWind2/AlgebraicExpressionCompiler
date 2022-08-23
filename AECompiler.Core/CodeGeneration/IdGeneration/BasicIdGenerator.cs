@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
 
-namespace AECompiler.Core.Interpreters.IdGeneration
+namespace AECompiler.Core.CodeGeneration.IdGeneration
 {
-    public class BasicIdGenerator : IStoreIdGenerator
+    internal sealed class BasicIdGenerator : IStoreIdGenerator
     {
         private uint _counter;
         private readonly Random _random;

@@ -8,14 +8,14 @@ namespace AECompiler.Tests;
 public class ParserTests
 {
     [Fact]
-    public void Parse_EmptyExpression_ReturnsEmptyToken()
+    public void Parse_EmptyExpression_ReturnsNoOpNode()
     {
         var parser = CreateDefaultParser();
         const string expression = "";
 
         ASTNode root = parser.Parse(expression);
 
-        Assert.Equal(TokenType.Empty, root.GetToken().Type);
+        Assert.Null(root.GetToken());
     }
 
     [Fact]
@@ -49,10 +49,10 @@ public class ParserTests
         Assert.Equal(TokenType.Plus, root.GetToken().Type);
     }
     
-    private Parser CreateDefaultParser()
+    private RecursiveParser CreateDefaultParser()
     {
-        var lexer = new Lexer();
+        var lexer = new LazyLexer();
 
-        return new Parser(lexer);
+        return new RecursiveParser(lexer);
     } 
 }

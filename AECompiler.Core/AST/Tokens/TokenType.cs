@@ -9,7 +9,6 @@
         Div,
         Lpar,
         Rpar,
-        Eof,
-        Empty
+        Eof
     }
 }
