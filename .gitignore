@@ -1,6 +1,10 @@
-/.vs
-*.png
-*/bin
-*/obj
-/.idea
+# Build artifacts
+bin/
+obj/
+
+# IDE
+.idea/
+.vs/
+
+# Unit test settings
 *.user

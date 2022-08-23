@@ -1,7 +1,7 @@
 ﻿using System;
 using AECompiler.Core;
 
-namespace AECompiler.ConsoleApp
+namespace AECompiler.CLI
 {
     public static class EntryPoint
     {
@@ -11,7 +11,7 @@ namespace AECompiler.ConsoleApp
             {
                 var core = new CompilerCore();
              
-                core.Compile("2 + (2*(3 + 7))");
+                core.Compile(args[0]);
             }
             catch (Exception ex)
             {
