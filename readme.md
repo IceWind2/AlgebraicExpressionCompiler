@@ -28,3 +28,8 @@ Run executable.
 ```sh
 ./output
 ```
+
+## !Warning!
+Current version have following limitations:
+* Number size: 16 bit (-2^15 ... 2^15 - 1)
+* Usable operations: +, -, *
